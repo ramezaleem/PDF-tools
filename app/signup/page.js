@@ -1,4 +1,5 @@
 import SignupForm from '@/features/auth/ui/SignupForm';
+import AuthPageShell from "@/features/auth/ui/AuthPageShell";
 
 export const metadata = {
   title: 'Sign Up - PDFCentral',
@@ -29,16 +30,21 @@ export const metadata = {
 
 export default function SignupPage() {
   return (
-	<div className="min-h-screen bg-white flex items-center justify-center py-12 px-4">
-	  <div className="w-full max-w-lg">
-		<div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
-		  <h1 className="text-2xl font-extrabold text-gray-900">Create account</h1>
-		  <p className="mt-2 text-sm text-gray-600">Sign up to unlock premium features and sync your settings.</p>
-
-		  <SignupForm />
-
-		</div>
-	  </div>
-	</div>
+  <AuthPageShell
+    eyebrow="Account"
+    title="Create your account."
+    subtitle="Unlock premium-first workflows, usage tracking, and faster queues."
+    cardTitle="Sign up"
+    cardSubtitle="Create an account in under a minute."
+    sideTitle="Privacy-first by default"
+    sidePoints={[
+      "Start free, upgrade only when you need it.",
+      "Unlimited runs with Premium (where available).",
+      "Get faster queues and higher limits.",
+      "Access reliability-gated tools only.",
+    ]}
+  >
+    <SignupForm />
+  </AuthPageShell>
   );
 }

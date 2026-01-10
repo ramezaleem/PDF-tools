@@ -31,18 +31,7 @@ const Footer = ({ logoText = "pdfSwiffter" }) => {
             <p className="text-gray-600 text-sm leading-relaxed">
               Your centralized hub for secure, fast, and free PDF management. Built for efficiency.
             </p>
-            <div className="flex space-x-4 mt-4">
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                className="text-gray-400 hover:text-teal-700 transition"
-              >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7 8c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2ZM4 21c0-2.761 2.239-5 5-5s5 2.239 5 5H4Z" />
-                </svg>
-              </a>
-            </div>
+            {/* Social links removed as requested */}
           </div>
 
           <div>

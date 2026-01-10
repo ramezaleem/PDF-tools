@@ -1,5 +1,6 @@
 
 import SigninForm from '@/features/auth/ui/SigninForm';
+import AuthPageShell from "@/features/auth/ui/AuthPageShell";
 
 // app/signin/page.jsx
 export const metadata = {
@@ -23,16 +24,21 @@ export const metadata = {
 export default function SigninPage() {
   // Server component: render page shell and client form component for interactivity
   return (
-	<div className="min-h-screen bg-white flex items-center justify-center py-12 px-4">
-	  <div className="w-full max-w-md">
-		<div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
-		  <h1 className="text-2xl font-extrabold text-gray-900">Sign in</h1>
-		  <p className="mt-2 text-sm text-gray-600">Welcome back — sign in to access your tools and settings.</p>
-
-		  <SigninForm />
-
-		</div>
-	  </div>
-	</div>
+  <AuthPageShell
+    eyebrow="Account"
+    title="Welcome back."
+    subtitle="Sign in to access your tools, usage, and Premium settings."
+    cardTitle="Sign in"
+    cardSubtitle="Use your account to continue."
+    sideTitle="Built for secure processing"
+    sidePoints={[
+      "Track usage and remaining monthly runs.",
+      "Keep Premium settings synced across devices.",
+      "Fast access to your most-used tools.",
+      "Reliability-first tool availability.",
+    ]}
+  >
+    <SigninForm />
+  </AuthPageShell>
   );
 }

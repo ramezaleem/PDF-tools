@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import UsageLimitModal from "./UsageLimitModal";
 import UsageBanner from "./UsageBanner";
 // Uploads are handled by the server API at /api/tools/[tool]
@@ -331,7 +332,14 @@ export default function ToolRunner({ tool }) {
 
           <div className="mt-4">
             {previewType && previewType.startsWith('image') ? (
-              <img src={previewUrl} alt={previewName} className="mx-auto max-h-[480px] w-auto object-contain" />
+              <Image
+                src={previewUrl}
+                alt={previewName || "File preview"}
+                className="mx-auto max-h-[480px] w-auto object-contain"
+                width={800}
+                height={480}
+                priority={false}
+              />
             ) : previewType === 'application/pdf' || previewName?.toLowerCase().endsWith('.pdf') ? (
               <iframe src={previewUrl} className="w-full h-[600px] border" title={previewName}></iframe>
             ) : (
