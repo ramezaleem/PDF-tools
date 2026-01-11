@@ -60,7 +60,7 @@ export default function ConversionResult({
       {extra ? <div className="mt-6">{extra}</div> : null}
 
       <div className="mt-8">
-        <Link href="/tools" className="text-sm font-medium text-blue-600 hover:underline">Back to tools</Link>
+        <Link href="/utilities" className="text-sm font-medium text-blue-600 hover:underline">Back to tools</Link>
       </div>
     </section>
   );

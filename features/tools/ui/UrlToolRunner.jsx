@@ -37,7 +37,7 @@ export default function UrlToolRunner({ tool }) {
     const loadUsage = async () => {
       setUsageLoading(true);
       try {
-        const res = await fetch(`/api/tools/${encodeURIComponent(tool)}/usage`, { cache: "no-store" });
+        const res = await fetch(`/api/utilities/${encodeURIComponent(tool)}/usage`, { cache: "no-store" });
         if (!res.ok) {
           setUsageStatus(null);
           return;
@@ -306,7 +306,7 @@ export default function UrlToolRunner({ tool }) {
     let jobStarted = false;
 
     try {
-      const response = await fetch(`/api/tools/${tool}/fileprocess`, {
+      const response = await fetch(`/api/utilities/${tool}/fileprocess`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

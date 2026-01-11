@@ -18,10 +18,35 @@ export default function PricingPageClient() {
       return;
     }
 
-    // Payments are disabled in this build. Inform the user instead of initiating a payment.
     setLoading(plan.name);
-    alert("Payments are disabled. Please sign up or contact support for premium access.");
-    setLoading(null);
+
+    try {
+      const amount = parseFloat(plan.price.replace("$", ""));
+
+      const response = await fetch("/api/payment/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          planName: plan.name,
+          amount: amount,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.paymentUrl) {
+        window.location.assign(result.paymentUrl);
+      } else {
+        alert(result.message || "Failed to initiate payment. Please try again.");
+        setLoading(null);
+      }
+    } catch (error) {
+      console.error("Payment initiation error:", error);
+      alert("An error occurred. Please try again.");
+      setLoading(null);
+    }
   };
 
   return (

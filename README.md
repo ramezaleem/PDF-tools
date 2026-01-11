@@ -70,8 +70,8 @@ npm run dev
 ### Core Directories
 
 - `app/` — Next.js app routes and pages
-  - `app/tools/[tool]/page.js` — Individual tool pages
-  - `app/api/tools/[tool]/fileprocess/route.js` — File processing API
+  - `app/utilities/[tool]/page.js` — Individual utility pages
+  - `app/api/utilities/[tool]/fileprocess/route.js` — File processing API
   - `app/api/payment/` — Payment gateway endpoints
   - `app/payment/` — Payment response handlers
   - `app/pricing/` — Pricing page with payment integration
@@ -151,18 +151,18 @@ async function canUse(ip, token) {
 
 ## File Upload Flow
 
-1. User visits a tool page (e.g. `/tools/merge`). The server renders `app/tools/[tool]/page.js` which includes the `ToolRunner` client component.
+1. User visits a utility page (e.g. `/utilities/merge`). The server renders `app/utilities/[tool]/page.js` which includes the `ToolRunner` client component.
 2. The user selects or drags files into `ToolRunner`. The component shows a preview (client-side blob URL) and a list of selected files.
 3. When the user clicks "Upload files", `ToolRunner` builds a `FormData` payload with:
    - `files[]` — each selected File appended as `files`
    - `tool` — the tool name (string)
-   and POSTs it to: `/api/tools/<tool>/fileprocess`
-4. The API route `app/api/tools/[tool]/fileprocess/route.js` calls `request.formData()` to parse the multipart upload, extracts files and the `tool` field, and saves files to disk using `actions/uploadFile.js`. It returns a JSON response `{ success, message, files }`.
+  and POSTs it to: `/api/utilities/<tool>/fileprocess`
+4. The API route `app/api/utilities/[tool]/fileprocess/route.js` calls `request.formData()` to parse the multipart upload, extracts files and the `tool` field, and saves files to disk using `actions/uploadFile.js`. It returns a JSON response `{ success, message, files }`.
 
 Example client request (conceptual):
 
 ```bash
-curl -X POST "http://localhost:3000/api/tools/merge/fileprocess" \
+curl -X POST "http://localhost:3000/api/utilities/merge/fileprocess" \
   -F "tool=merge" \
   -F "files=@/path/to/doc1.pdf" \
   -F "files=@/path/to/doc2.pdf"

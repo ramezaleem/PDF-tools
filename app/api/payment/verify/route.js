@@ -2,7 +2,7 @@
 // API endpoint to verify payment transaction status
 
 import { NextResponse } from 'next/server';
-// Payment gateway integration removed — payments are disabled.
+import { verifyTransactionStatus } from '@/lib/payment/arb-gateway';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -49,6 +49,70 @@ async function updateOrderStatus(trackId, status, transactionDetails = {}) {
 }
 
 export async function POST(request) {
-  // Payments are disabled — verification is unavailable.
-  return NextResponse.json({ success: false, message: 'Payments are disabled' }, { status: 501 });
+  try {
+    const { paymentId, trackId } = await request.json();
+
+    if (!paymentId || !trackId) {
+      return NextResponse.json(
+        { success: false, message: 'Missing paymentId or trackId' },
+        { status: 400 }
+      );
+    }
+
+    // Verify the transaction with ARB gateway
+    const verificationResult = await verifyTransactionStatus(paymentId, trackId);
+
+    if (!verificationResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: verificationResult.message || 'Transaction verification failed',
+        },
+        { status: 400 }
+      );
+    }
+
+    // Get the order from database
+    const order = await getOrder(trackId);
+    if (!order) {
+      return NextResponse.json(
+        { success: false, message: 'Order not found' },
+        { status: 404 }
+      );
+    }
+
+    // Update order status based on transaction result
+    const transactionStatus = verificationResult.result?.toUpperCase() || 'UNKNOWN';
+    await updateOrderStatus(trackId, transactionStatus, verificationResult);
+
+    // Return appropriate response based on transaction status
+    if (transactionStatus === 'APPROVED' || transactionStatus === 'CAPTURED') {
+      return NextResponse.json({
+        success: true,
+        transactionStatus: 'APPROVED',
+        message: 'Payment verified successfully',
+        order: {
+          trackId: order.trackId,
+          planName: order.planName,
+          amount: order.amount,
+        },
+      });
+    } else {
+      return NextResponse.json({
+        success: false,
+        transactionStatus,
+        message: verificationResult.message || 'Payment was not approved',
+      });
+    }
+  } catch (error) {
+    console.error('Payment verification error:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to verify payment',
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
 }

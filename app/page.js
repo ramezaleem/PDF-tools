@@ -4,7 +4,7 @@ import Benefits from "@/features/home/ui/Benefits";
 import ClientReview from "@/features/home/ui/ClientReview";
 import GoogleAd from "@/shared/ui/GoogleAd";
 import HomePageClient from "@/features/home/ui/HomePageClient";
-import { getAllowedToolKeys } from "@/lib/tools/tools-policy";
+import { getAllowedToolKeys } from "@/lib/utilities/tools-policy";
 
 const HERO_AD_SLOT = process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_TOP;
 const MIDPAGE_AD_SLOT = process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_MID;

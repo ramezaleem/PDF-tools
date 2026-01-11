@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Footer from "@/shared/ui/Footer";
 import { plans } from "@/features/pricing/data/plans";
-import { ALL_TOOLS } from "@/features/tools/constants/tools";
-import { getAllowedToolKeys } from "@/lib/tools/tools-policy";
+import { ALL_TOOLS } from "@/features/utilities/constants/tools";
+import { getAllowedToolKeys } from "@/lib/utilities/tools-policy";
 
 export const metadata = {
   title: "Premium plan | pdfSwiffter",

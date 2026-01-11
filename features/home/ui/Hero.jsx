@@ -43,7 +43,7 @@ const Hero = ({ query, setQuery }) => {
                 Standard essentials
               </Link>
               <Link
-                href="/tools"
+                href="/utilities"
                 className="inline-flex items-center rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
               >
                 Browse all tools
@@ -63,19 +63,19 @@ const Hero = ({ query, setQuery }) => {
 
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link
-                  href="/tools/pdf-to-jpg"
+                  href="/utilities/pdf-to-jpg"
                   className="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 hover:border-amber-300 hover:bg-amber-100"
                 >
                   PDF to JPG
                 </Link>
                 <Link
-                  href="/tools/youtube-download"
+                  href="/utilities/youtube-download"
                   className="inline-flex items-center rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 hover:border-rose-300 hover:bg-rose-100"
                 >
                   YouTube Download
                 </Link>
                 <Link
-                  href="/tools/tiktok-download"
+                  href="/utilities/tiktok-download"
                   className="inline-flex items-center rounded-full border border-[#25F4EE] bg-black px-3 py-1 text-xs font-semibold text-white shadow-[0_0_0_1px_rgba(254,44,85,0.35)] hover:border-[#FE2C55]"
                 >
                   TikTok Download
@@ -111,13 +111,13 @@ const Hero = ({ query, setQuery }) => {
 
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Link
-                  href="/tools/youtube-download"
+                  href="/utilities/youtube-download"
                   className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 hover:border-rose-300 hover:bg-rose-100"
                 >
                   YouTube Download
                 </Link>
                 <Link
-                  href="/tools/tiktok-download"
+                  href="/utilities/tiktok-download"
                   className="rounded-2xl border border-[#25F4EE] bg-black px-4 py-3 text-sm font-semibold text-white shadow-[0_0_0_1px_rgba(254,44,85,0.35)] hover:border-[#FE2C55]"
                 >
                   TikTok Download
@@ -132,8 +132,8 @@ const Hero = ({ query, setQuery }) => {
                   <span className="text-sm font-semibold text-slate-800">
                     PDF to JPG
                   </span>
-                  <Link
-                    href="/tools/pdf-to-jpg"
+                    <Link
+                      href="/utilities/pdf-to-jpg"
                     className="text-xs font-semibold text-amber-700 hover:text-amber-800"
                   >
                     Open

@@ -1,5 +1,5 @@
-import ToolsPageView from "@/features/tools/ui/ToolsPageView";
-import { getAllowedToolKeys } from "@/lib/tools/tools-policy";
+import ToolsPageView from "@/features/utilities/ui/ToolsPageView";
+import { getAllowedToolKeys } from "@/lib/utilities/tools-policy";
 
 export const metadata = {
     title: "All tools | pdfSwiffter",

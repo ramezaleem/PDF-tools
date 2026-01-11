@@ -5,11 +5,6 @@ import ProgressBar from "@/shared/ui/ProgressBar";
 import UsageBanner from "@/features/utilities/ui/UsageBanner";
 import UsageLimitModal from "@/features/utilities/ui/UsageLimitModal";
 
-// Simple file upload component - only handles upload, then redirects to result page
-// Props:
-// - tool: string (tool name like 'rotate-pdf')
-// - accept?: string (file types to accept)
-// - multiple?: boolean (allow multiple files)
 export default function FileUploadWithProgress({
   tool,
   accept = ".pdf",
@@ -67,42 +62,24 @@ export default function FileUploadWithProgress({
   const uploadFiles = async () => {
     if (selectedFiles.length === 0) return;
 
-    console.log("Upload function called, files:", selectedFiles);
-
     try {
-      console.log("Setting state to uploading...");
       setState("uploading");
       setProgress(0);
 
-      console.log("Starting progress simulation...");
-      // Simulate upload progress more visibly
       for (let i = 0; i <= 100; i += 5) {
-        console.log(`Progress: ${i}%`);
         setProgress(i);
-        await new Promise((resolve) => setTimeout(resolve, 50)); // Faster updates
+        await new Promise((resolve) => setTimeout(resolve, 50));
       }
 
-      console.log("Upload complete, processing file...");
-      
-      // Process file directly without sessionStorage to avoid quota issues
       const file = selectedFiles[0];
-      console.log("Processing file:", file.name, file.size);
-      
-      // Check file size - if too large, process directly
-      const maxSessionStorageSize = 4 * 1024 * 1024; // 4MB limit for sessionStorage
-      
+      const maxSessionStorageSize = 4 * 1024 * 1024; // 4MB
       if (file.size > maxSessionStorageSize) {
-        console.log("File too large for sessionStorage, processing directly...");
-        
-        // For large files, send directly to conversion API
         setState("converting");
         setProgress(0);
-        
         try {
           const formData = new FormData();
           formData.append("files", file);
           formData.append("tool", tool);
-          
           const response = await fetch(`/api/utilities/${tool}/fileprocess`, {
             method: "POST",
             body: formData,
@@ -120,15 +97,12 @@ export default function FileUploadWithProgress({
           }
 
           const result = await response.json();
-          
           if (result.success && result.result?.downloadUrl) {
             setProgress(100);
             setState("complete");
             if (result.usage) {
               setUsageStatus(result.usage);
             }
-            
-            // Redirect to success page
             setTimeout(() => {
               const params = new URLSearchParams({
                 status: "success",
@@ -145,31 +119,19 @@ export default function FileUploadWithProgress({
           setState("error");
           return;
         }
-        
-        return; // Exit early for direct processing
+        return;
       }
-      
-      // For smaller files, use sessionStorage approach
+
       const arrayBuffer = await file.arrayBuffer();
-      console.log("ArrayBuffer created, length:", arrayBuffer.byteLength);
-      
-      // Convert ArrayBuffer to base64 safely for large files
       const uint8Array = new Uint8Array(arrayBuffer);
       let binary = "";
-      const chunkSize = 8192; // Process in chunks to avoid stack overflow
-      
+      const chunkSize = 8192;
       for (let i = 0; i < uint8Array.length; i += chunkSize) {
         const chunk = uint8Array.slice(i, i + chunkSize);
         binary += String.fromCharCode.apply(null, chunk);
       }
-      
       const base64 = btoa(binary);
-      console.log("Base64 conversion complete, length:", base64.length);
-      
-      // Try to store in sessionStorage with error handling
       const sessionId = `upload_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      console.log("Storing in sessionStorage with ID:", sessionId);
-      
       try {
         sessionStorage.setItem(sessionId, JSON.stringify({
           filename: file.name,
@@ -178,22 +140,15 @@ export default function FileUploadWithProgress({
           size: file.size,
           contentType: file.type || "application/pdf",
         }));
-        
-        // Redirect to result page with session reference
         const redirectUrl = `/result?status=uploaded&session=${sessionId}`;
         router.push(redirectUrl);
-        
       } catch (storageError) {
         console.warn("SessionStorage failed, falling back to direct processing:", storageError);
-        
-        // Fallback to direct processing if sessionStorage fails
         setState("converting");
         setProgress(0);
-        
         const formData = new FormData();
         formData.append("files", file);
         formData.append("tool", tool);
-        
         const response = await fetch(`/api/utilities/${tool}/fileprocess`, {
           method: "POST",
           body: formData,
@@ -211,14 +166,12 @@ export default function FileUploadWithProgress({
         }
 
         const result = await response.json();
-        
         if (result.success && result.result?.downloadUrl) {
           setProgress(100);
           setState("complete");
           if (result.usage) {
             setUsageStatus(result.usage);
           }
-          
           setTimeout(() => {
             const params = new URLSearchParams({
               status: "success",
@@ -231,7 +184,6 @@ export default function FileUploadWithProgress({
           throw new Error(result.message || "Conversion failed");
         }
       }
-      
     } catch (error) {
       console.error("Upload error:", error);
       setState("error");
@@ -251,7 +203,6 @@ export default function FileUploadWithProgress({
   return (
     <div className="w-full max-w-lg mx-auto space-y-6">
       <UsageBanner usage={usageStatus} loading={usageLoading} />
-      {/* File input area */}
       <div className="relative">
         <input
           ref={fileInputRef}
@@ -293,7 +244,6 @@ export default function FileUploadWithProgress({
         </label>
       </div>
 
-      {/* Progress bar - always show for debugging when not idle */}
       {state !== 'idle' && (
         <div className="mb-4">
           <div className="text-sm font-medium text-gray-700 mb-2">
@@ -307,13 +257,9 @@ export default function FileUploadWithProgress({
         </div>
       )}
 
-      {/* Action buttons */}
       <div className="flex gap-3">
         <button
-          onClick={() => {
-            console.log('Button clicked! State:', state, 'Files:', selectedFiles.length);
-            uploadFiles();
-          }}
+          onClick={() => { uploadFiles(); }}
           disabled={selectedFiles.length === 0 || state === 'uploading' || state === 'converting'}
           className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
         >
@@ -321,25 +267,10 @@ export default function FileUploadWithProgress({
         </button>
         
         {state === 'error' && (
-          <button
-            onClick={reset}
-            className="px-4 py-2 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors"
-          >
-            Try Again
-          </button>
+          <button onClick={reset} className="px-4 py-2 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors">Try Again</button>
         )}
         
-        {/* Debug button */}
-        <button
-          onClick={() => {
-            console.log('Debug - Current state:', { state, progress, fileName, selectedFiles });
-            setState('uploading');
-            setProgress(50);
-          }}
-          className="px-3 py-2 bg-gray-200 text-gray-700 rounded text-xs"
-        >
-          Test
-        </button>
+        <button onClick={() => { setState('uploading'); setProgress(50); }} className="px-3 py-2 bg-gray-200 text-gray-700 rounded text-xs">Test</button>
       </div>
 
       <UsageLimitModal

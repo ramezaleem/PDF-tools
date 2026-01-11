@@ -1,4 +1,4 @@
-import React from "react";
+import { Suspense } from "react";
 import PaymentResponseClient from "@/features/payment/ui/PaymentResponseClient";
 
 export const metadata = {
@@ -8,8 +8,8 @@ export const metadata = {
 
 export default function PaymentResponsePage() {
   return (
-    <React.Suspense fallback={<div />}>
+    <Suspense fallback={<div />}>
       <PaymentResponseClient />
-    </React.Suspense>
+    </Suspense>
   );
 }

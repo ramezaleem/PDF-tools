@@ -1,9 +1,10 @@
-import { getToolPolicy } from "@/lib/tools/tools-policy";
+import { getToolPolicy } from "@/lib/utilities/tools-policy";
 import { getUsageStatus } from "@/lib/usage/usage-db";
 import { getClientInfo } from "@/shared/utils/getClientInfo";
 
 export async function GET(request, { params }) {
-  const toolKey = String(params?.tool || "")
+  const resolvedParams = await params;
+  const toolKey = String(resolvedParams?.tool || "")
     .replace(/[^a-zA-Z0-9_-]/g, "")
     .toLowerCase();
   const policy = await getToolPolicy(toolKey);

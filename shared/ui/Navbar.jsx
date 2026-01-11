@@ -6,7 +6,7 @@ const Navbar = ({ logoText = "pdfSwifter" }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: "Tools", href: "/tools" },
+    { name: "Tools", href: "/utilities" },
     { name: "Premium", href: "/premium" },
     { name: "Pricing", href: "/pricing" },
     { name: "Blog", href: "/blog" },

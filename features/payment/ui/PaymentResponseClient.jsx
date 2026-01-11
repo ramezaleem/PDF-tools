@@ -10,9 +10,46 @@ export default function PaymentResponseClient() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Payments are disabled — do not attempt verification.
-    setStatus("error");
-    setMessage("Payments are disabled on this instance.");
+    const verifyPayment = async () => {
+      const paymentId = searchParams.get("paymentId");
+      const trackId = searchParams.get("trackId");
+
+      if (!paymentId || !trackId) {
+        setStatus("error");
+        setMessage("Invalid payment response");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/payment/verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ paymentId, trackId }),
+        });
+
+        const result = await response.json();
+
+        if (result.success && result.transactionStatus === "APPROVED") {
+          setStatus("success");
+          setMessage("Payment successful! Your premium account has been activated.");
+
+          setTimeout(() => {
+            window.location.assign("/tools");
+          }, 3000);
+        } else {
+          setStatus("failed");
+          setMessage(result.message || "Payment failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Verification error:", error);
+        setStatus("error");
+        setMessage("Unable to verify payment. Please contact support.");
+      }
+    };
+
+    verifyPayment();
   }, [searchParams]);
 
   return (

@@ -3,8 +3,8 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import ToolList from "@/features/tools/constants/tools";
-import ToolCard from "@/features/tools/ui/ToolCard";
+import ToolList from "@/features/utilities/constants/tools";
+import ToolCard from "@/features/utilities/ui/ToolCard";
 
 const listVariants = {
   hidden: { opacity: 0 },
@@ -97,7 +97,7 @@ export default function HomeToolsSection({ query = "", allowedToolKeys }) {
                   {filteredPremium.length === 1 ? "tool" : "tools"}
                 </span>
                 <Link
-                  href="/tools"
+                  href="/utilities"
                   className="inline-flex items-center rounded-full border border-amber-200 bg-white px-4 py-2 text-sm font-semibold text-amber-700 hover:border-amber-300 hover:text-amber-800"
                 >
                   View all tools
@@ -185,7 +185,7 @@ export default function HomeToolsSection({ query = "", allowedToolKeys }) {
                   {filteredFreemium.length === 1 ? "tool" : "tools"}
                 </span>
                 <Link
-                  href="/tools"
+                  href="/utilities"
                   className="inline-flex items-center rounded-full border border-teal-200 bg-white px-4 py-2 text-sm font-semibold text-teal-700 hover:border-teal-300 hover:text-teal-800"
                 >
                   Browse all tools

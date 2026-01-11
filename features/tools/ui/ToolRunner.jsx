@@ -4,12 +4,12 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import UsageLimitModal from "./UsageLimitModal";
 import UsageBanner from "./UsageBanner";
-// Uploads are handled by the server API at /api/tools/[tool]
+// Uploads are handled by the server API at /api/utilities/[tool]
 
 export default function ToolRunner({ tool }) {
   // Simple file uploader UI + preview for a tool.
   // - Builds FormData with files + tool + optional fields (angle/options)
-  // - Posts to /api/tools/<tool>/fileprocess
+  // - Posts to /api/utilities/<tool>/fileprocess
   // - Handles JSON responses or binary responses (downloads file)
 
   const [files, setFiles] = useState([]);
@@ -85,7 +85,7 @@ export default function ToolRunner({ tool }) {
     const loadUsage = async () => {
       setUsageLoading(true);
       try {
-        const res = await fetch(`/api/tools/${encodeURIComponent(tool)}/usage`, { cache: "no-store" });
+        const res = await fetch(`/api/utilities/${encodeURIComponent(tool)}/usage`, { cache: "no-store" });
         if (!res.ok) {
           setUsageStatus(null);
           return;
@@ -126,7 +126,7 @@ export default function ToolRunner({ tool }) {
       // POST to the new fileprocess endpoint and include tool in the form data
       fd.append('tool', tool);
 
-      const res = await fetch(`/api/tools/${encodeURIComponent(tool)}/fileprocess`, {
+      const res = await fetch(`/api/utilities/${encodeURIComponent(tool)}/fileprocess`, {
         method: 'POST',
         body: fd,
       });

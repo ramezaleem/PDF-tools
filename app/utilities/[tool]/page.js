@@ -20,7 +20,6 @@ const ToolPage = async ({ params }) => {
     notFound();
   }
 
-// Find tool config to check if it requires URL input
   const toolConfig = tools.find((t) => t.href === `/utilities/${tool}`);
   if (!toolConfig) {
     notFound();
@@ -53,8 +52,8 @@ const ToolPage = async ({ params }) => {
           </h1>
           <p className="mt-2 text-sm text-gray-600">
             {isUrlTool
-              ? `Enter a URL to use the ${toolConfig?.title || tool} tool.`
-              : `Upload files and apply the ${tool} tool.`}
+              ? `Enter a URL to use the ${toolConfig?.title || tool} utility.`
+              : `Upload files and apply the ${tool} utility.`}
           </p>
         </header>
         {TOOL_DETAIL_AD_SLOT && (

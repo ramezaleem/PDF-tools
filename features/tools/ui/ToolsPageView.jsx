@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import ToolList from "@/features/tools/constants/tools";
-import ToolCard from "@/features/tools/ui/ToolCard";
+import ToolList from "@/features/utilities/constants/tools";
+import ToolCard from "@/features/utilities/ui/ToolCard";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import GoogleAd from "@/shared/ui/GoogleAd";
 

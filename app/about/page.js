@@ -164,7 +164,7 @@ export default function About() {
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <Link
-                href="/tools"
+                href="/utilities"
                 className="rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white hover:bg-slate-800"
               >
                 Explore tools
