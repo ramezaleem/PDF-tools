@@ -1,1 +1,1 @@
-export * from "@/features/tools/server/processor";
+export * from "../../tools/server/processor.js";

@@ -1,1 +1,1 @@
-export { default } from "@/features/tools/ui/ToolsPageView";
+export { default } from "../../tools/ui/ToolsPageView.jsx";
