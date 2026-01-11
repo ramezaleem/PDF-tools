@@ -35,7 +35,7 @@ export async function GET ( request, { params } ) {
     const headers = new Headers();
 
     const contentType = upstream.headers.get( 'content-type' ) || 'application/octet-stream';
-    const disposition =
+    let disposition =
       upstream.headers.get( 'content-disposition' ) ||
       `attachment; filename="youtube-download-${ processId }.mp4"`;
 
